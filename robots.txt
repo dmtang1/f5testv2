@@ -1,0 +1,8 @@
+User-Agent: *
+Allow: /
+Disallow: /results
+Disallow: /r/
+Disallow: /debug
+Disallow: /api/
+
+Sitemap: https://dmtang1.github.io/sitemap.xml
