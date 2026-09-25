@@ -236,8 +236,6 @@ export const t = {
   },
   a11y: {
     skip: "Skip to content",
-    themeToDark: "Switch to dark theme",
-    themeToLight: "Switch to light theme",
     openMenu: "Open menu",
   },
 };

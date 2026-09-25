@@ -2,11 +2,9 @@
 
 import { featureFlags } from "@/data/config";
 import { t } from "@/data/locale/en";
-import { track } from "@/lib/analytics";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 const links = [
   { href: "/#compare", label: t.nav.compare },
@@ -19,7 +17,6 @@ const links = [
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const testing = pathname === "/test";
 
   useEffect(() => {
     setOpen(false);
@@ -43,31 +40,35 @@ export function Header() {
           <span className="stamp">F5</span>
           <span>F5 TEST</span>
         </Link>
-        {testing ? (
-          <ThemeToggle />
-        ) : (
-          <>
-            <nav className="nav-desktop" aria-label="Primary">
-              {links.map((link) => (
-                <Link key={link.href} href={link.href} aria-current={pathname === link.href ? "page" : undefined}>
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-            <div className="actions">
-              <ThemeToggle />
-              <button type="button" className="nav-toggle" aria-expanded={open} aria-label={open ? t.nav.close : t.a11y.openMenu} onClick={() => setOpen((value) => !value)}>
-                {open ? t.nav.close : t.nav.menu}
-              </button>
-              <Link className="btn" href="/test" onClick={() => track("cta_click", { location: "header" })}>
-                {t.nav.cta}
-              </Link>
-            </div>
-          </>
-        )}
+        <nav className="nav-desktop" aria-label="Primary">
+          {links.map((link) => (
+            <Link key={link.href} href={link.href} aria-current={pathname === link.href ? "page" : undefined}>
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          aria-label={open ? t.nav.close : t.a11y.openMenu}
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span className="sr-only">{open ? t.nav.close : t.nav.menu}</span>
+          {open ? (
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          )}
+        </button>
       </div>
-      {open && !testing ? (
-        <nav className="nav-mobile" aria-label="Primary mobile">
+      {open ? (
+        <nav id="mobile-nav" className="nav-mobile" aria-label="Primary mobile">
           {links.map((link) => (
             <Link key={link.href} href={link.href}>
               {link.label}

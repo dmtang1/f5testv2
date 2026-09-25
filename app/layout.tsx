@@ -28,11 +28,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning className={`${display.variable} ${sans.variable}`}>
       <body>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("f5-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}`,
-          }}
-        />
         <Header />
         <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>{children}</div>
         <Footer />
